@@ -1,6 +1,6 @@
 = framecurve
 
-Description goes here.
+framecurve file handling gem.
 
 == Contributing to framecurve
  
