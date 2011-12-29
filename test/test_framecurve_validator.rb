@@ -13,7 +13,8 @@ class TestFramecurveValidator < Test::Unit::TestCase
     v = Framecurve::Validator.new
     v.validate([])
     assert v.any_errors?
-    assert_equal [], v.errors
+    assert_equal ["The framecurve did not contain any lines at all",
+     "The framecurve did not contain any frame correlation records"], v.errors
   end
   
   def test_should_error_out_without_actual_tuples
@@ -21,14 +22,14 @@ class TestFramecurveValidator < Test::Unit::TestCase
     v = Framecurve::Validator.new
     v.validate(c)
     assert v.any_errors?
-    assert_equal [], v.errors
+    assert_equal ["The framecurve did not contain any frame correlation records"], v.errors
   end
   
-  def test_should_error_out_with_frames_out_of_sequence
+  def test_should_error_out_with_dupe_frames
     c = Framecurve::Curve.new( Framecurve::Tuple.new(10, 123.4), Framecurve::Tuple.new(10, 123.4) )
     v = Framecurve::Validator.new
     v.validate(c)
     assert v.any_errors?
-    assert_equal [], v.errors
+    assert_equal ["The framecurve contains the same frame (10) twice or more (2 times)"], v.errors
   end
 end

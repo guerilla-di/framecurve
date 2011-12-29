@@ -1,4 +1,4 @@
-# Validates a passed Curve object for well-formedness and completeness
+# Validates a Curve object for well-formedness and completeness
 class Framecurve::Validator
   attr_reader :warnings, :errors
   
@@ -28,12 +28,12 @@ class Framecurve::Validator
   end
   
   def verify_at_least_one_line(curve)
-    @errors.push("The passed framecurve did not contain any lines at all") if curve.empty?
+    @errors.push("The framecurve did not contain any lines at all") if curve.empty?
   end
   
   def verify_at_least_one_tuple(curve)
     first_tuple = curve.find{|e| e.tuple? }
-    @errors.push("The passed framecurve did not contain any frame correlation records") unless first_tuple
+    @errors.push("The framecurve did not contain any frame correlation records") unless first_tuple
   end
   
   def verify_proper_sequencing(curve)
@@ -45,6 +45,19 @@ class Framecurve::Validator
       @errors.push("The frame sequencing is out of order " + 
       "(expected #{proper_sequence.inspect} but got #{frame_numbers.inspect})." +
       " The framecurve spec mandates that frames are recorded sequentially") 
+    end
+  end
+  
+  def verify_no_duplicate_records(curve)
+    detected_dupes = []
+    curve.each do | t |
+      next unless t.tuple?
+      next if detected_dupes.include?(t.at)
+      elements = curve.select{|e| e.tuple? && e.at == t.at }
+      if elements.length > 1
+        detected_dupes.push(t.at)
+        @errors.push("The framecurve contains the same frame (%d) twice or more (%d times)" % [t.at, elements.length])
+      end
     end
   end
   
