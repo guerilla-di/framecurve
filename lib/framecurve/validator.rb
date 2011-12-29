@@ -15,10 +15,6 @@ class Framecurve::Validator
   end
   
   def parse_and_validate(path_or_io)
-    unless path_or_io.respond_to?(:read)
-      return File.open(path_or_io, "r", &method(:parse_and_validate))
-    end
-    
     begin
       validate(Framecurve::Parser.new.parse(path_or_io))
     rescue Framecurve::Malformed => e

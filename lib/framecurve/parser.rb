@@ -2,15 +2,17 @@ class Framecurve::Parser
   COMMENT = /^#(.+)$/
   CORRELATION_RECORD = /^(\d+)\t((\d+(\.\d*)?)|\.\d+)([eE][+-]?[0-9]+)?$/
   
-  def parse(io)
+  def parse(path_or_io)
+    return File.open(path_or_io, "r", &method(:parse)) unless path_or_io.respond_to?(:read)
+    
     @line_counter = 0 # IO#lineno is not exactly super-reliable
     elements = []
-    until io.eof?
-      str = io.gets("\n")
+    until path_or_io.eof?
+      str = path_or_io.gets("\n")
       @line_counter += 1
       
       # We mandate CRLF linebreaks unless the file ends on THAT line
-      if str[-2..-1] != "\r\n" && !io.eof?
+      if str[-2..-1] != "\r\n" && !path_or_io.eof?
         raise Framecurve::Malformed, "Framecurve mandates CRLF linebreaks, yours only has LF (at line #{@line_counter})" 
       end
       

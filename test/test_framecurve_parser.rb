@@ -19,6 +19,14 @@ class TestFramecurveParser < Test::Unit::TestCase
     assert_equal "Some useful info", elements[2].text
   end
   
+  def test_should_try_to_open_file_at_path_if_string_passed_to_parse
+    v = Framecurve::Parser.new
+    assert !File.exist?("/tmp/some_file.framecurve.txt")
+    assert_raise(Errno::ENOENT) do
+      v.parse("/tmp/some_file.framecurve.txt")
+    end
+  end
+  
   def test_parser_fails_on_malformed_lines
     data = "Sachlich gesehen\nbambam"
     assert_raise(Framecurve::Malformed) do

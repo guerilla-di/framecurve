@@ -17,6 +17,13 @@ class TestFramecurveValidator < Test::Unit::TestCase
     assert !v.any_errors?
   end
   
+  def test_should_try_to_open_file_at_path_if_string_passed_to_parse_and_validate
+    v = Framecurve::Validator.new
+    assert_raise(Errno::ENOENT) do
+      v.parse_and_validate("/tmp/some_file.framecurve.txt")
+    end
+  end
+  
   def test_should_init_with_empty_errors_and_warnings
     v = Framecurve::Validator.new
     assert !v.any_errors?
