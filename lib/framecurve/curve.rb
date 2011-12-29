@@ -1,8 +1,9 @@
 # Represents a curve file with comments and frame correlation records
 class Framecurve::Curve
+  include Enumerable
   
-  def initialize(elements = [])
-    @elements = elements
+  def initialize(*elements)
+    @elements = elements.flatten
   end
   
   # Iterates over all the tuples in the curve

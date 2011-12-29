@@ -23,4 +23,12 @@ class TestFramecurveValidator < Test::Unit::TestCase
     assert v.any_errors?
     assert_equal [], v.errors
   end
+  
+  def test_should_error_out_with_frames_out_of_sequence
+    c = Framecurve::Curve.new( Framecurve::Tuple.new(10, 123.4), Framecurve::Tuple.new(10, 123.4) )
+    v = Framecurve::Validator.new
+    v.validate(c)
+    assert v.any_errors?
+    assert_equal [], v.errors
+  end
 end

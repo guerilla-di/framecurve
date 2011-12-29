@@ -16,12 +16,16 @@ class Framecurve::Validator
   
   def validate(curve)
     initialize # reset
-    (methods.grep(/^verify/) + methods.grep(/^recommend/)).each do | method_name |
+    methods_matching(/^(verify|recommend)/).each do | method_name |
       method(method_name).call(curve)
     end
   end
   
   private
+  
+  def methods_matching(pattern)
+    private_methods.select { |m|  m.to_s =~ pattern }
+  end
   
   def verify_at_least_one_line(curve)
     @errors.push("The passed framecurve did not contain any lines at all") if curve.empty?
