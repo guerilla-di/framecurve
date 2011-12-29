@@ -1,3 +1,4 @@
+# Represents a framecurve comment
 class Framecurve::Comment < Struct.new(:text)
   def tuple?
     false
