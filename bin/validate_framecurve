@@ -8,9 +8,9 @@ end
 
 raise "Pass at least one path to a framecurve file as a argument" if ARGV.empty?
 
-def print_list(of)
+def print_list(destination, of)
   of.each do | elem |
-    $stderr.puts " -> %s" % elem
+    destination.puts " -> %s" % elem
   end
 end
 
@@ -21,14 +21,15 @@ ARGV.each do | arg |
   unless validator.any_errors? || validator.any_warnings?
     puts Color.green { "Framecurve file %s TOTALLY OK! Good job!" % arg }
   else
+    $stderr.puts Color.bold{ arg }
     if validator.any_errors?
-      $stderr.puts Color.red{ Color.bold { "The file %s had the following errors flagged:" % arg }}
-      print_list(validator.errors)
+      $stderr.puts Color.red{ Color.bold { "The file had the following errors flagged:" % arg }}
+      print_list($stderr, validator.errors)
     end
     
     if validator.any_warnings?
-      $stderr.puts Color.red{ Color.bold { "The file %s was sort of OK but did cause the following warnings:" % arg }}
-      print_list(validator.warnings)
+      $stderr.puts Color.orange{ Color.bold { "The file was sort of OK but did cause the following warnings:" % arg }}
+      print_list($stderr, validator.warnings)
     end
   end 
 end
