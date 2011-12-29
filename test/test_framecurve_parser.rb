@@ -19,6 +19,26 @@ class TestFramecurveParser < Test::Unit::TestCase
     assert_equal "Some useful info", elements[2].text
   end
   
+  def test_parse_with_neg_source_frame
+    data = "10\t-1293.12"
+    elements = Framecurve::Parser.new.parse(StringIO.new(data))
+    assert_kind_of Framecurve::Curve, elements
+    
+    assert_equal 1, elements.length
+    assert_kind_of Framecurve::Tuple, elements[0]
+    assert_equal Framecurve::Tuple.new(10, -1293.12), elements[0]
+  end
+  
+  def test_parse_with_neg_dest_frame
+    data = "-123\t-1293.12"
+    elements = Framecurve::Parser.new.parse(StringIO.new(data))
+    assert_kind_of Framecurve::Curve, elements
+    
+    assert_equal 1, elements.length
+    assert_kind_of Framecurve::Tuple, elements[0]
+    assert_equal Framecurve::Tuple.new(-123, -1293.12), elements[0]
+  end
+  
   def test_should_try_to_open_file_at_path_if_string_passed_to_parse
     v = Framecurve::Parser.new
     assert !File.exist?("/tmp/some_file.framecurve.txt")
@@ -34,10 +54,4 @@ class TestFramecurveParser < Test::Unit::TestCase
     end
   end
   
-  def test_parser_fails_with_only_lf_linefeed_instead_of_crlf
-    data = ["# Framecurve data", "10\t1293.12", "#Some useful info", "10\t145"].join("\n")
-    assert_raise(Framecurve::Malformed) do
-      Framecurve::Parser.new.parse(StringIO.new(data))
-    end
-  end
 end

@@ -1,6 +1,6 @@
 class Framecurve::Parser
   COMMENT = /^#(.+)$/
-  CORRELATION_RECORD = /^(\d+)\t((\d+(\.\d*)?)|\.\d+)([eE][+-]?[0-9]+)?$/
+  CORRELATION_RECORD = /^([-]?\d+)\t([-]?(\d+(\.\d*)?)|\.\d+)([eE][+-]?[0-9]+)?$/
   
   def parse(path_or_io)
     # If the first argument is a path parse from the opened file, 
@@ -16,11 +16,6 @@ class Framecurve::Parser
     until path_or_io.eof?
       str = path_or_io.gets("\n")
       @line_counter += 1
-      
-      # We mandate CRLF linebreaks unless the file ends on THAT line
-      if str[-2..-1] != "\r\n" && !path_or_io.eof?
-        raise Framecurve::Malformed, "Framecurve mandates CRLF linebreaks, yours only has LF (at line #{@line_counter})" 
-      end
       
       str = str.strip
       item = if str =~ COMMENT

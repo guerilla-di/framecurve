@@ -17,6 +17,7 @@ end
 ARGV.each do | arg |
   validator = Framecurve::Validator.new
   validator.parse_and_validate(arg)
+  
   unless validator.any_errors? || validator.any_warnings?
     puts Color.green { "Framecurve file %s TOTALLY OK! Good job!" % arg }
   else
