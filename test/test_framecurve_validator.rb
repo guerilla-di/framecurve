@@ -24,6 +24,18 @@ class TestFramecurveValidator < Test::Unit::TestCase
     end
   end
   
+  def test_should_record_filename_error_with_improper_extension
+    File.open("wrong.extension", "wb"){|f| f.write("# This might have been\r\n1\t123.45") }
+    begin
+      v = Framecurve::Validator.new
+      v.parse_and_validate("wrong.extension")
+      assert v.any_errors?
+      assert_equal ["The framecurve file has to have the .framecurve.txt double extension, but had \".extension\""], v.errors
+    ensure
+      File.unlink("wrong.extension")
+    end
+  end
+  
   def test_should_init_with_empty_errors_and_warnings
     v = Framecurve::Validator.new
     assert !v.any_errors?

@@ -56,6 +56,13 @@ class Framecurve::Validator
     end
   end
   
+  def verify_file_naming(curve)
+    return unless curve.respond_to?(:filename) && curve.filename
+    unless curve.filename =~ /\.framecurve\.txt$/
+      @errors.push("The framecurve file has to have the .framecurve.txt double extension, but had %s" % File.extname(curve.filename).inspect)
+    end
+  end
+  
   def verify_no_duplicate_records(curve)
     detected_dupes = []
     curve.each do | t |

@@ -2,6 +2,10 @@
 class Framecurve::Curve
   include Enumerable
   
+  # If this curve has been generated or parsed from a file, the parser 
+  # will preserve the filename here
+  attr_accessor :filename
+  
   def initialize(*elements)
     @elements = elements.flatten
   end

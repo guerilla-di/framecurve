@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+require File.dirname(__FILE__) + "/../lib/framecurve"
+require 'term/ansicolor'
+
+class Color
+  extend Term::ANSIColor
+end
+
+raise "Pass at least one path to a framecurve file as a argument" if ARGV.empty?
+
+def print_list(of)
+  of.each do | elem |
+    $stderr.puts " -> %s" % elem
+  end
+end
+
+ARGV.each do | arg |
+  validator = Framecurve::Validator.new
+  validator.parse_and_validate(arg)
+  unless validator.any_errors? || validator.any_warnings?
+    puts Color.green { "Framecurve file %s TOTALLY OK! Good job!" % arg }
+  else
+    if validator.any_errors?
+      $stderr.puts Color.red{ Color.bold { "The file %s had the following errors flagged:" % arg }}
+      print_list(validator.errors)
+    end
+    
+    if validator.any_warnings?
+      $stderr.puts Color.red{ Color.bold { "The file %s was sort of OK but did cause the following warnings:" % arg }}
+      print_list(validator.warnings)
+    end
+  end 
+end
