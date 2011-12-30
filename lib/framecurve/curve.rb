@@ -94,7 +94,9 @@ class Framecurve::Curve
         yield(tuple)
       else # Apply linear interpolation
         dt = next_tuple.at - tuple.at
-        if dt > 1
+        if dt == 1
+          yield(tuple)
+        else
           dy = next_tuple.value - tuple.value
           delta = dy / dt
           dt.times do | increment |

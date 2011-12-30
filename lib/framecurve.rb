@@ -1,5 +1,5 @@
 module Framecurve
-  VERSION = "1.0.0"
+  VERSION = "1.0.1"
   
   # Is raised when a malformed framecurve bit has occurred in the system
   class Malformed < RuntimeError
