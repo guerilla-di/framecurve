@@ -6,6 +6,6 @@ module Framecurve
   end
 end
 
-%w( serializer tuple comment curve parser validator ).each do | f |
+%w( tuple comment curve parser validator serializer ).each do | f |
   require File.join(File.dirname(__FILE__), "framecurve", f)
 end
