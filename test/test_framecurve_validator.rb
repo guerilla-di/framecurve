@@ -81,8 +81,8 @@ class TestFramecurveValidator < Test::Unit::TestCase
      v = Framecurve::Validator.new
      v.validate(c)
      assert v.any_errors?
-     errs = ["The tuple 1 had a negative at_frame value (-10). The spec mandates positive frames.",
-      "The tuple 2 had a negative use_frame_of_source value (-345.67000). The spec mandates positive frames."]
+     errs = ["The tuple 1 had it's at_frame value (-10) below 1. The spec mandates at_frame >= 1.",
+      "The tuple 2 had a use_frame_of_source value (-345.67000) below 0. The spec mandates use_frame_of_source >= 0."]
      assert_equal errs, v.errors
    end
 end
