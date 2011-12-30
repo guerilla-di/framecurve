@@ -1,7 +1,11 @@
+# Parses the data in the passed file/IO into a Curve object
 class Framecurve::Parser
   COMMENT = /^#(.+)$/
   CORRELATION_RECORD = /^([-]?\d+)\t([-]?(\d+(\.\d*)?)|\.\d+)([eE][+-]?[0-9]+)?$/
   
+  # Parse from file path or IO. If the passed object is an IO it will be read from.
+  # If the passed object is a string it will be interpreted as a path and the file at that path
+  # will be parsed instead
   def parse(path_or_io)
     # If the first argument is a path parse from the opened file, 
     # and record the filename in the curve as well
@@ -31,6 +35,7 @@ class Framecurve::Parser
     return Framecurve::Curve.new(elements)
   end
   
+  private
   def extract_comment(line)
     comment_txt = line.scan(COMMENT).flatten[0].strip
     Framecurve::Comment.new(comment_txt)
