@@ -19,7 +19,7 @@ class Framecurve::Curve
   
   # Return the tuples in this curve
   def only_tuples
-    @elements.collect{|e| e.tuple? }
+    @elements.select{|e| e.tuple? }
   end
   
   # Iterates over all the elements in the curve
@@ -36,7 +36,7 @@ class Framecurve::Curve
   
   # Adds a comment line
   def comment!(text)
-    @elements.push(Comment.new(text.strip))
+    @elements.push(Framecurve::Comment.new(text.strip))
   end
   
   # Adds a tuple
@@ -47,11 +47,11 @@ class Framecurve::Curve
     if any_tuples?
       last_frame = only_tuples[-1].at
       if at_frame <= last_frame
-        raise Malformed, "Cannot add a frame that comes before or at the same frame as the previous one (%d after %d)" % [at_frame, last_frame]
+        raise Framecurve::Malformed, "Cannot add a frame that comes before or at the same frame as the previous one (%d after %d)" % [at_frame, last_frame]
       end
     end
     
-    @elements.push(Tuple.new(at_frame, value.to_f))
+    @elements.push(Framecurve::Tuple.new(at_frame, value.to_f))
   end
   
   # Returns the number of lines in this curve file
@@ -59,16 +59,52 @@ class Framecurve::Curve
     @elements.length
   end
   
+  # Tells whether the curve contains any elements
   def empty?
     @elements.empty?
   end
   
+  # Get a record by offset (line number 0-based)
   def [](at)
     @elements[at]
   end
   
+  # Tells whether the curve has any tuples at all
   def any_tuples?
-    @elements.any{|e| e.tuple? }
+    @elements.any? {|e| e.tuple? }
   end
   
+  # Returns a new curve with the same data with all the intermediate frames interpolated properly
+  # and all the comments except for the preamble removed
+  def to_materialized_curve
+    c = self.class.new
+    c.comment! "http://framecurve.org/specification-v1"
+    c.comment! "at_frame\tuse_frame_of_source"
+    each_defined_tuple do | tuple |
+      c.tuple!(tuple.at, tuple.value)
+    end
+  end
+  
+  # Yields each tuple that is defined by this framecurve in succession.
+  # For example, if the curve contains tuples at (1, 123.45) and (10, 167.89)
+  # this method will yield 10 times for each defined integer frame value
+  def each_defined_tuple
+    tuples = select{|e| e.tuple? }
+    tuples.each_with_index do | tuple, idx |
+      next_tuple = tuples[idx + 1]
+      if next_tuple.nil?
+        yield(tuple)
+      else # Apply linear interpolation
+        dt = next_tuple.at - tuple.at
+        if dt > 1
+          dy = next_tuple.value - tuple.value
+          delta = dy / dt
+          dt.times do | increment |
+            value_inc = delta * increment
+            yield(Framecurve::Tuple.new(tuple.at + increment, tuple.value + value_inc))
+          end
+        end
+      end
+    end
+  end
 end

@@ -79,4 +79,23 @@ class TestFramecurveCurve < Test::Unit::TestCase
     c.filename = "foo.framecurve.txt"
     assert_equal "foo.framecurve.txt", c.filename
   end
+  
+  def test_teach_defined_tuple
+    c = Framecurve::Curve.new(Framecurve::Tuple.new(1, 123.45), Framecurve::Tuple.new(10, 567.89))
+    concrete = []
+    c.each_defined_tuple(&concrete.method(:push))
+    ref = [
+      Framecurve::Tuple.new(1, 123.450000),
+      Framecurve::Tuple.new(2, 172.83222222222224),
+      Framecurve::Tuple.new(3, 222.21444444444444),
+      Framecurve::Tuple.new(4, 271.5966666666667),
+      Framecurve::Tuple.new(5, 320.9788888888889),
+      Framecurve::Tuple.new(6, 370.36111111111114),
+      Framecurve::Tuple.new(7, 419.74333333333334),
+      Framecurve::Tuple.new(8, 469.12555555555554),
+      Framecurve::Tuple.new(9, 518.5077777777778),
+      Framecurve::Tuple.new(10, 567.89),
+    ]
+    assert_equal ref, concrete
+  end
 end

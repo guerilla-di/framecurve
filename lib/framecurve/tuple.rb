@@ -1,5 +1,7 @@
 # Represents one Framecurve frame correlation record
 class Framecurve::Tuple < Struct.new(:at, :value)
+  include Comparable
+  
   def tuple?
     true
   end
@@ -9,6 +11,10 @@ class Framecurve::Tuple < Struct.new(:at, :value)
   end
   
   def to_s
-    "%d\t%05f" % [at, value]
+    "%d\t%.5f" % [at, value]
+  end
+  
+  def <=>(another)
+    to_s <=> another.to_s
   end
 end
