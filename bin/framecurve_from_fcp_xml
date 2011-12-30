@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+require File.dirname(__FILE__) + "/../lib/framecurve"
+
+fail "No file provided" if ARGV.empty?
+
+path = ARGV.shift
+File.open(path) do | f |
+  extractor = Framecurve::Extractors::FCP_XML_InterchangeV4.new
+  extractor.extract(f)
+end
