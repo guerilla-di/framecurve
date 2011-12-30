@@ -102,6 +102,6 @@ class TestFramecurveCurve < Test::Unit::TestCase
   def test_materialized_curve
     c = Framecurve::Curve.new(Framecurve::Tuple.new(1, 123.45), Framecurve::Tuple.new(10, 567.89))
     materialized = c.to_materialized_curve
-    assert_equal 12, c.length
+    assert_equal 12, materialized.length
   end
 end
