@@ -62,6 +62,19 @@ class Framecurve::Validator
     end
   end
   
+  def verify_non_negative_source_and_destination_frames(curve)
+    curve.each_with_index do | t, i |
+      next unless t.tuple?
+      
+      line_no = i + 1
+      if t.at < 0
+        @errors.push("The tuple %d had a negative at_frame value (%d). The spec mandates positive frames." % [line_no, t.at])
+      elsif t.value < 0
+        @errors.push("The tuple %d had a negative use_frame_of_source value (%.5f). The spec mandates positive frames." % [line_no, t.value])
+      end
+    end
+  end
+  
   def verify_file_naming(curve)
     return unless curve.respond_to?(:filename) && curve.filename
     unless curve.filename =~ /\.framecurve\.txt$/

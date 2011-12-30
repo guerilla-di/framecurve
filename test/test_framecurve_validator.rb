@@ -75,4 +75,14 @@ class TestFramecurveValidator < Test::Unit::TestCase
     assert v.any_errors?
     assert_equal ["The frame sequencing is out of order (expected [1, 10] but got [10, 1]). The framecurve spec mandates that frames are recorded sequentially"], v.errors
   end
+  
+  def test_should_error_out_with_neg_source_and_dest_values
+     c = Framecurve::Curve.new( Framecurve::Tuple.new(-10, 123.4), Framecurve::Tuple.new(1, -345.67) )
+     v = Framecurve::Validator.new
+     v.validate(c)
+     assert v.any_errors?
+     errs = ["The tuple 1 had a negative at_frame value (-10). The spec mandates positive frames.",
+      "The tuple 2 had a negative use_frame_of_source value (-345.67000). The spec mandates positive frames."]
+     assert_equal errs, v.errors
+   end
 end
