@@ -1,8 +1,11 @@
 # encoding: utf-8
 
 require 'jeweler'
+require './lib/framecurve'
+
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
+  gem.version = Framecurve::VERSION
   gem.name = "framecurve"
   gem.homepage = "http://github.com/julik/framecurve"
   gem.license = "MIT"
