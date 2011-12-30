@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Julik"]
   s.date = "2011-12-30"
-  s.description = "TODO: longer description of your gem"
+  s.description = " Parser, validation and interpolation"
   s.email = "me@julik.nl"
   s.executables = ["framecurve_validator"]
   s.extra_rdoc_files = [
@@ -40,11 +40,11 @@ Gem::Specification.new do |s|
     "test/test_framecurve_tuple.rb",
     "test/test_framecurve_validator.rb"
   ]
-  s.homepage = "http://github.com/julik/framecurve"
+  s.homepage = "http://github.com/guerilla-di/framecurve"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.11"
-  s.summary = "TODO: one-line summary of your gem"
+  s.summary = "Handles Framecurve files"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
