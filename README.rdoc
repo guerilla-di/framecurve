@@ -1,6 +1,6 @@
 = framecurve
 
-framecurve file handling gem for Ruby.
+framecurve (http://framecurve.org) file handling gem for Ruby.
 
 It currently includes only one binary, framecurve_validator, that will validate framecurve files passed in the arguments and report
 any errors found in the files to STDERR.
