@@ -106,8 +106,8 @@ class TestFramecurveCurve < Test::Unit::TestCase
   end
   
   def test_materialized_curve_with_sequentials
-    c = Framecurve::Curve.new(Framecurve::Tuple.new(1, 123.45), Framecurve::Tuple.new(2, 567.89))
+    c = Framecurve::Curve.new(Framecurve::Tuple.new(1, 123.45), Framecurve::Tuple.new(2, 567.89), Framecurve::Tuple.new(3, 567.89))
     materialized = c.to_materialized_curve
-    assert_equal 4, materialized.length
+    assert_equal 5, materialized.length
   end
 end
