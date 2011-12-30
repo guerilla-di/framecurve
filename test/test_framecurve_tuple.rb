@@ -16,6 +16,8 @@ class TestFramecurveTuple < Test::Unit::TestCase
   def test_vlidates_equality_to_5_decimal_places
     t = Framecurve::Tuple.new(1, 1234.567890)
     t2 = Framecurve::Tuple.new(1, 1234.567891)
+    t3 = Framecurve::Tuple.new(1, 1234.567891)
+    
     assert_equal t, t2
   end
 end

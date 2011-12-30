@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "bin/framecurve_validator",
+    "framecurve.gemspec",
     "lib/framecurve.rb",
     "lib/framecurve/comment.rb",
     "lib/framecurve/curve.rb",
@@ -35,6 +36,7 @@ Gem::Specification.new do |s|
     "test/test_framecurve_comment.rb",
     "test/test_framecurve_curve.rb",
     "test/test_framecurve_parser.rb",
+    "test/test_framecurve_serializer.rb",
     "test/test_framecurve_tuple.rb",
     "test/test_framecurve_validator.rb"
   ]
