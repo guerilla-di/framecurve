@@ -1,4 +1,8 @@
-# Validates a Curve object for well-formedness and completeness
+# Validates a Curve object for well-formedness and completeness.
+#   v = Validator.new
+#   v.parse(io_handle)
+#   v.errors => []
+#   v.warnings => ["Do not put cusswords in your framecurves"]
 class Framecurve::Validator
   attr_reader :warnings, :errors
   
@@ -14,6 +18,7 @@ class Framecurve::Validator
     @warnings.any?
   end
   
+  # Parse and validate a file (API similar to Parser#parse)
   def parse_and_validate(path_or_io)
     begin
       validate(Framecurve::Parser.new.parse(path_or_io))
@@ -22,6 +27,7 @@ class Framecurve::Validator
     end
   end
   
+  # Validate a passed Curve object
   def validate(curve)
     initialize # reset
     methods_matching(/^(verify|recommend)/).each do | method_name |
