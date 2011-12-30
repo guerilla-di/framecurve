@@ -54,7 +54,7 @@ class FCP_XML_InterchangeV4
     c.filename = [clip_item_name, "framecurve.txt"].join('.')
     
     # Accumulate keyframes
-    XPath.each(param, "./keyframe") do | kf |
+    XPath.each(param, "keyframe") do | kf |
       kf_when, kf_value = XPath.first(kf, "when").text.to_i, XPath.first(kf, "value").text.to_f
       # TODO: should be a flag
       kf_when -= in_point
