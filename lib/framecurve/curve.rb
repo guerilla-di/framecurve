@@ -41,17 +41,16 @@ class Framecurve::Curve
   
   # Adds a tuple
   def tuple!(at, value)
-    at_frame = at.to_i
-    
+    t = Framecurve::Tuple.new(at.to_i, value.to_f)
     # Validate for sequencing
     if any_tuples?
       last_frame = only_tuples[-1].at
-      if at_frame <= last_frame
-        raise Framecurve::Malformed, "Cannot add a frame that comes before or at the same frame as the previous one (%d after %d)" % [at_frame, last_frame]
+      if t.at <= last_frame
+        raise Framecurve::Malformed, "Cannot add a frame that comes before or at the same frame as the previous one (%d after %d)" % [t.at, last_frame]
       end
     end
     
-    @elements.push(Framecurve::Tuple.new(at_frame, value.to_f))
+    @elements.push(t)
   end
   
   # Returns the number of lines in this curve file
@@ -80,9 +79,8 @@ class Framecurve::Curve
     c = self.class.new
     c.comment! "http://framecurve.org/specification-v1"
     c.comment! "at_frame\tuse_frame_of_source"
-    each_defined_tuple do | tuple |
-      c.tuple!(tuple.at, tuple.value)
-    end
+    each_defined_tuple {|t|  c.tuple!(t.at, t.value) }
+    return c
   end
   
   # Yields each tuple that is defined by this framecurve in succession.
