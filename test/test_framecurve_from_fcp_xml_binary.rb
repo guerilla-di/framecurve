@@ -20,15 +20,15 @@ class TestFramecurveFromFCPXML < Test::Unit::TestCase
     s, o, e = cli(FILE_PATH)
     assert_equal 0, s
     assert e.include?("timewarp")
+    puts e
     
     curve = Framecurve::Parser.new.parse("ConuntDown-RSZ.framecurve.txt")
-    assert_equal 91, curve.length
-    assert_equal Framecurve::Tuple.new(1, 1.0), curve[2]
-    assert_equal Framecurve::Tuple.new(14, 2.625), curve[15]
+    assert_equal 53, curve.length
+    assert_equal Framecurve::Tuple.new(1, 13.0), curve[2]
+    assert_equal Framecurve::Tuple.new(51, 63.0), curve[-1]
     
     curve2 = Framecurve::Parser.new.parse("ConuntDown-RSZ-1.framecurve.txt")
-    puts curve.inspect
-    assert_equal 91, curve.length
+    assert_equal 2, curve.length
     
   end
   
