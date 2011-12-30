@@ -31,5 +31,6 @@ ARGV.each do | arg |
       $stderr.puts Color.orange{ Color.bold { "    The file was sort of OK but did cause the following warnings:" % arg }}
       print_list($stderr, validator.warnings)
     end
+    exit 10
   end 
 end

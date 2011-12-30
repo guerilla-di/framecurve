@@ -38,7 +38,8 @@ Gem::Specification.new do |s|
     "test/test_framecurve_parser.rb",
     "test/test_framecurve_serializer.rb",
     "test/test_framecurve_tuple.rb",
-    "test/test_framecurve_validator.rb"
+    "test/test_framecurve_validator.rb",
+    "test/test_framecurve_validator_binary.rb"
   ]
   s.homepage = "http://github.com/guerilla-di/framecurve"
   s.licenses = ["MIT"]
@@ -53,15 +54,18 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<term-ansicolor>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.6.4"])
       s.add_development_dependency(%q<rake>, [">= 0"])
+      s.add_development_dependency(%q<cli_test>, [">= 0"])
     else
       s.add_dependency(%q<term-ansicolor>, [">= 0"])
       s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
       s.add_dependency(%q<rake>, [">= 0"])
+      s.add_dependency(%q<cli_test>, [">= 0"])
     end
   else
     s.add_dependency(%q<term-ansicolor>, [">= 0"])
     s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
     s.add_dependency(%q<rake>, [">= 0"])
+    s.add_dependency(%q<cli_test>, [">= 0"])
   end
 end
 

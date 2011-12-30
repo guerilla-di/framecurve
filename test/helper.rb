@@ -4,6 +4,4 @@ require 'stringio'
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'framecurve'
-
-class Test::Unit::TestCase
-end
+require 'cli_test'
