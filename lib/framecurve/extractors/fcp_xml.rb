@@ -1,73 +1,96 @@
-require "rexml/document"
+require File.dirname(__FILE__) + "/xml_bridge"
 
 module Framecurve
 module Extractors
 
 # Pulls all varispeed timeremaps from an FCP XML V4 file
 class FCP_XML_InterchangeV4
-  include REXML
+  
+  def initialize()
+    @xml = Framecurve::XMLBridge.new
+  end
   
   def extract(io)
-    doc = Document.new(io)
+    doc = @xml.document_from_io(io)
     # Find all of the parameterid elements with graphdict
-    curvedicts = XPath.each( doc, "//parameterid") do | e |
-      if e.text == "graphdict"
-        parameter = e.parent
-        effect = parameter.parent
-        if XPath.first(effect, "name").text == "Time Remap"
+    @xml.xpath_each(doc, "//parameterid") do | e |
+      if @xml.element_text(e) == "graphdict"
+        parameter = @xml.parent(e)
+        effect = @xml.parent(e, 2)
+        if @xml.xpath_first_text(effect, "name") == "Time Remap"
           $stderr.puts "Found a timewarp at %s" % parameter.xpath
           
           curve = pull_timewarp(parameter)
-          destination = increment_filename(curve.filename)
+          destination = compose_filename(io.path, parameter)
+          
           File.open(destination, "wb") do | f |
             $stderr.puts "Writing out a framecurve to %s" % destination
             Framecurve::Serializer.new.serialize(f, curve)
           end
-          
         end
       end
     end
   end
   
-  def increment_filename(filename)
-    counter = 0
-    while File.exist?(filename)
-      counter += 1
-      filename = filename.gsub(/(-\d+)?\.framecurve\.txt$/, '-%d.framecurve.txt' % counter)
+  # TODO: rewrite to account for clip index, track and sequence
+  def compose_filename(source_path, parameter)
+    path = @xml.xpath_of(parameter).split("/")
+    # Path to the parameter node is something like this
+    # /xmeml/project/children/sequence/media/video/track/clipitem[1]/filter[7]/effect/parameter[6] 
+    # From this we want to preserve:
+    # sequence and it's name
+    # track number
+    # clipitem number (offset)
+    relevant_nodenames = path.grep(/^(sequence|track|clipitem)/)
+    # Add default indices
+    relevant_nodenames.map! do | nodename_and_offset |
+      if nodename_and_offset =~ /\]$/
+        elems = nodename_and_offset.scan(/(\w+)(\[(\d+)\])/).flatten
+        [elems.shift, elems.pop]
+      else
+        [nodename_and_offset, "0"]
+      end
     end
-    filename
+    mappings = {"sequence" => "SEQ", "track"=>"V", "clipitem" => "CLIP"}
+    naming = relevant_nodenames.map do | nodename, offset |
+      offset = offset.to_i + 1
+      [mappings[nodename], offset].join("")
+    end.join('-')
+    
+    [source_path, naming, "framecurve.txt"].join('.')
   end
   
   def pull_timewarp(param)
-    clipitem = param.parent.parent.parent
+    clipitem = @xml.parent(param, 3)
     c = Framecurve::Curve.new
     $stderr.puts clipitem.xpath
     
     c.comment!("Information from %s" % clipitem.xpath)
     
-    clip_item_name = XPath.first(clipitem, "name").text
+    clip_item_name = @xml.xpath_first_text(clipitem, "name")
     
     # The clip in point in the edit timeline, also first frame of the TW
-    in_point = XPath.first(clipitem, "in").text.to_i
-    out_point = XPath.first(clipitem, "out").text.to_i
+    in_point = @xml.xpath_first_text(clipitem, "in").to_i
+    out_point = @xml.xpath_first_text(clipitem, "out").to_i
     
     c.filename = [clip_item_name, "framecurve.txt"].join('.')
     
     # Accumulate keyframes
-    XPath.each(param, "keyframe") do | kf |
-      kf_when, kf_value = XPath.first(kf, "when").text.to_i, XPath.first(kf, "value").text.to_f
-      # TODO: should be a flag
-      kf_when -= in_point
-      kf_when += 1
-      # kf_value -= in_point
-      kf_value += 1
-      unless kf_when < 1 || kf_value < 1 || kf_when > out_point
-        c.tuple!(kf_when, kf_value)
-      end
+    @xml.xpath_each(param, "keyframe") do | kf |
+      write_keyframe(c, kf, in_point, out_point)
     end
     $stderr.puts("Generated a curve of #{c.length} keys")
     c
   end
+  
+  def write_keyframe(c, kf, in_point, out_point)
+    kf_when, kf_value = @xml.xpath_first_text(kf, "when").to_i, @xml.xpath_first_text(kf, "value").to_f
+    # TODO: should be a flag
+    at = kf_when - in_point + 1
+    value = kf_value + 1 # FCP starts clips at 0
+    c.tuple!(at, value) unless (at < 1 || value < 1 || at > out_point)
+  end
+  
 end
 end
 end

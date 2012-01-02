@@ -47,6 +47,6 @@ to a variety of Flame-supported setup formats. Refer to the <tt>flame_channel_pa
 
 == Copyright
 
-Copyright (c) 2011 Julik. See LICENSE.txt for
-further details.
+Copyright (c) 2011 Julik.
+See LICENSE.txt for further details.
 
