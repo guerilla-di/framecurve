@@ -4,7 +4,7 @@ module Framecurve
 module Extractors
 
 # Pulls all varispeed timeremaps from an FCP XML V4 file
-class FCP_XML_InterchangeV4
+class FCP_XML
   
   def initialize()
     @xml = Framecurve::XMLBridge.new

@@ -5,6 +5,6 @@ fail "No file provided" if ARGV.empty?
 
 path = ARGV.shift
 File.open(path) do | f |
-  extractor = Framecurve::Extractors::FCP_XML_InterchangeV4.new
+  extractor = Framecurve::Extractors::FCP_XML.new
   extractor.extract(f)
 end
