@@ -2,13 +2,38 @@
 
 framecurve (http://framecurve.org) file handling gem for Ruby.
 
-It currently includes only one binary, framecurve_validator, that will validate framecurve files passed in the arguments and report
+This gem includes a handful of classes for manipulating framecurves and is intended as a library for when you want to do something
+with framecurves from within Ruby. This will also power the online framecurve validation service once it's online.
+
+== Framecurve validation and parsing
+
+The main binary of the gem is called <tt>framecurve_validator</tt>, it will validate framecurve files passed in the arguments and report
 any errors found in the files to STDERR.
 
     $framecurve_validator somefile.framecurve.txt another.framecurve.txt
-    
-For the rest this gem includes a handful of classes for manipulating framecurves and is intended as a library for when you want to do something
-with framecurves from within Ruby. This will also power the online framecurve validation service once it's online.
+
+This is handy when you wrote your own piece of software that exports framecurve files or you want to make sure that a framecurve file
+you have received conforms to the framecurve specification. This tool will also note all the deviations from the spec in terms of recommended
+headers and comments and report them to you one by one.
+
+== Extracting framecurves from FinalCut Pro XML files
+
+This gem includes an application, <tt>framecurve_from_fcp</tt>, that will extract Framecurve files from a FinalCut Pro XML
+files (the version you need is *XML Interchange Format Version 4*). It will dive into your sequence and find all clips which have
+time remap effects on them, and for each of these clips it will write out a <tt>.framecurve.txt<tt> file that you can convert into
+other formats or load into applications for which we provide framecurve scripts. This file will include all of the motion keyframes
+that have been applied in FCP.
+
+    $framecurve_from_fcp my_edit.xml
+
+will write out a number of framecurve files, one per timewarped clip in your sequence (they will be appropriately named with the track
+index, clip index and clip name so that you can trace which ones relate to which clips in your edit).
+
+== Extracting framecurves from Flame/Smoke setups
+
+If you need to extract from a format written by Flame or Smoke, install the *flame_channel_parser* gem. This gem provides
+the binaries <tt>framecurve_to_flame</tt> and <tt>framecurve_from_flame</tt> which will create framecurve files or convert them
+to a variety of Flame-supported setup formats. Refer to the <tt>flame_channel_parser</tt> gem documentation for more information on these.
 
 == Contributing to framecurve
  
