@@ -77,12 +77,31 @@ class TestFramecurveValidator < Test::Unit::TestCase
   end
   
   def test_should_error_out_with_neg_source_and_dest_values
-     c = Framecurve::Curve.new( Framecurve::Tuple.new(-10, 123.4), Framecurve::Tuple.new(1, -345.67) )
-     v = Framecurve::Validator.new
-     v.validate(c)
-     assert v.any_errors?
-     errs = ["The tuple 1 had it's at_frame value (-10) below 1. The spec mandates at_frame >= 1.",
+    c = Framecurve::Curve.new( Framecurve::Tuple.new(-10, 123.4), Framecurve::Tuple.new(1, -345.67) )
+    v = Framecurve::Validator.new
+    v.validate(c)
+    assert v.any_errors?
+    errs = ["The tuple 1 had it's at_frame value (-10) below 1. The spec mandates at_frame >= 1.",
       "The tuple 2 had a use_frame_of_source value (-345.67000) below 0. The spec mandates use_frame_of_source >= 0."]
-     assert_equal errs, v.errors
-   end
+    assert_equal errs, v.errors
+  end
+  
+  def test_parse_from_err_bad_extension
+    v = Framecurve::Validator.new
+    v.parse_and_validate(File.dirname(__FILE__) + "/fixtures/framecurves/incorrect.extension")
+    assert_equal ["The framecurve file has to have the .framecurve.txt double extension, but had \".extension\""], v.errors
+  end
+  
+  def test_parse_from_err_neg_frames
+    v = Framecurve::Validator.new
+    v.parse_and_validate(File.dirname(__FILE__) + "/fixtures/framecurves/err-neg-frames.framecurve.txt")
+    assert_equal ["The tuple 3 had it's at_frame value (-1) below 1. The spec mandates at_frame >= 1."], v.errors
+  end
+  
+  def test_parse_from_err_no_tuples
+    v = Framecurve::Validator.new
+    v.parse_and_validate(File.dirname(__FILE__) + "/fixtures/framecurves/err-no-tuples.framecurve.txt")
+    assert_equal ["The framecurve did not contain any frame correlation records"], v.errors
+  end
+  
 end
