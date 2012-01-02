@@ -24,7 +24,7 @@ time remap effects on them, and for each of these clips it will write out a <tt>
 other formats or load into applications for which we provide framecurve scripts. This file will include all of the motion keyframes
 that have been applied in FCP.
 
-    $framecurve_from_fcp my_edit.xml
+    $framecurve_from_fcp_xml my_edit.xml
 
 will write out a number of framecurve files, one per timewarped clip in your sequence (they will be appropriately named with the track
 index, clip index and clip name so that you can trace which ones relate to which clips in your edit).
