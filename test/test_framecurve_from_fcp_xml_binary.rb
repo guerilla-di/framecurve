@@ -18,6 +18,7 @@ class TestFramecurveFromFCPXML < Test::Unit::TestCase
   
   def test_cli_with_valid_file
     s, o, e = cli(FILE_PATH)
+    
     puts e
     assert_equal 0, s
     assert e.include?("timewarp")

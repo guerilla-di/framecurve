@@ -32,7 +32,8 @@ class FCP_XML_InterchangeV4
     end
   end
   
-  # TODO: rewrite to account for clip index, track and sequence
+  private
+  
   def compose_filename(source_path, parameter)
     path = @xml.xpath_of(parameter).split("/")
     # Path to the parameter node is something like this
@@ -48,12 +49,11 @@ class FCP_XML_InterchangeV4
         elems = nodename_and_offset.scan(/(\w+)(\[(\d+)\])/).flatten
         [elems.shift, elems.pop]
       else
-        [nodename_and_offset, "0"]
+        [nodename_and_offset, "1"]
       end
     end
     mappings = {"sequence" => "SEQ", "track"=>"V", "clipitem" => "CLIP"}
     naming = relevant_nodenames.map do | nodename, offset |
-      offset = offset.to_i + 1
       [mappings[nodename], offset].join("")
     end.join('-')
     
