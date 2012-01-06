@@ -20,12 +20,12 @@ class FCP_XML
         if @xml.xpath_first_text(effect, "name") == "Time Remap"
           $stderr.puts "Found a timewarp at %s" % parameter.xpath
           
-          curve = pull_timewarp(parameter)
+          curve = pull_timewarp(parameter, File.basename(io.path))
           destination = compose_filename(io.path, parameter)
           
           File.open(destination, "wb") do | f |
             $stderr.puts "Writing out a framecurve to %s" % destination
-            Framecurve::Serializer.new.serialize(f, curve)
+            Framecurve::Serializer.new.validate_and_serialize(f, curve)
           end
         end
       end
@@ -60,11 +60,12 @@ class FCP_XML
     [source_path, naming, "framecurve.txt"].join('.')
   end
   
-  def pull_timewarp(param)
+  def pull_timewarp(param, source_filename)
     clipitem = @xml.parent(param, 3)
     c = Framecurve::Curve.new
     $stderr.puts clipitem.xpath
     
+    c.comment!("From FCP XML %s" % source_filename)
     c.comment!("Information from %s" % clipitem.xpath)
     
     clip_item_name = @xml.xpath_first_text(clipitem, "name")
