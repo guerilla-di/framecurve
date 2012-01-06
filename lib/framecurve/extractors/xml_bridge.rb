@@ -1,5 +1,7 @@
 require "rexml/document"
 
+#:nodoc:
+
 # This is a thin wrapper around the REXML library. We want FC to use nokogiri
 # or libxml in the future, without modifying it's core functionality. Therefore we will use
 # a thin layer on top of REXML and then migrate it to offer various backends
