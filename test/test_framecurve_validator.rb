@@ -104,4 +104,20 @@ class TestFramecurveValidator < Test::Unit::TestCase
     assert_equal ["The framecurve did not contain any frame correlation records"], v.errors
   end
   
+  def test_should_warn_without_preamble_url
+    c = Framecurve::Curve.new( Framecurve::Tuple.new(10, 123.4))
+    v = Framecurve::Validator.new
+    v.validate(c)
+    assert v.any_warnings?
+    assert_equal "It is recommended that a framecurve starts with a comment with the specification URL", v.warnings[0]
+  end
+  
+  def test_should_warn_without_preamble_headers
+    c = Framecurve::Curve.new( Framecurve::Comment.new("http://framecurve.org/specification-v1"), Framecurve::Tuple.new(10, 123.4))
+    v = Framecurve::Validator.new
+    v.validate(c)
+    assert v.any_warnings?
+    assert_equal "It is recommended for the second comment to provide a column header", v.warnings[0]
+  end
+  
 end

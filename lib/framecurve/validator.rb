@@ -10,10 +10,12 @@ class Framecurve::Validator
     @warnings, @errors = [], []
   end
   
+  # Tells whether this validator instance has any errors
   def any_errors?
     @errors.any?
   end
   
+  # Tells whether this validator instance has any warnings
   def any_warnings?
     @warnings.any?
   end
@@ -96,12 +98,15 @@ class Framecurve::Validator
   end
   
   def recommend_proper_preamble(curve)
-    first_comments = curve.map do | e |
-      break unless e.comment?
-      e
+    unless curve[0] && curve[0].comment? && curve[0].text =~ /framecurve\.org\/specification/
+      @warnings.push("It is recommended that a framecurve starts with a comment with the specification URL")
     end
   end
   
   def recommend_proper_column_headers(curve)
+    line_two = curve[1]
+    unless line_two && line_two.comment? && line_two.text =~ /at_frame\tuse_frame_of_source/
+      @warnings.push("It is recommended for the second comment to provide a column header")
+    end
   end
 end
