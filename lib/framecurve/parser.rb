@@ -1,4 +1,5 @@
-# Parses the data in the passed file/IO into a Curve object
+# Parses the data in the passed file/IO into a Curve object.
+#   curve = Framecurve::Parser.new.parse("/tmp/curve.framecurve.txt")
 class Framecurve::Parser
   COMMENT = /^#(.+)$/
   CORRELATION_RECORD = /^([-]?\d+)\t([-]?(\d+(\.\d*)?)|\.\d+)([eE][+-]?[0-9]+)?$/

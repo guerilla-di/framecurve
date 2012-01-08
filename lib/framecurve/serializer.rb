@@ -2,7 +2,9 @@
 class Framecurve::Serializer
   
   # Serialize the passed curve into io. Will use the materialized curve version.
-  # Will write the file with CRLF linebreaks instead of LF
+  # Will write the file with CRLF linebreaks instead of LF.
+  # Also, if the passed Curve object does not contain a preamble (URL and column headers)
+  # they will be added automatically
   def serialize(io, curve)
     write_preamble(io) unless curve_has_preamble?(curve)
     curve.each do | record |
