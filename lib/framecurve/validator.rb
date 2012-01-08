@@ -70,9 +70,9 @@ class Framecurve::Validator
       
       line_no = i + 1
       if t.at < 1
-        @errors.push("The tuple %d had it's at_frame value (%d) below 1. The spec mandates at_frame >= 1." % [line_no, t.at])
+        @errors.push("The line %d had it's at_frame value (%d) below 1. The spec mandates at_frame >= 1." % [line_no, t.at])
       elsif t.value < 0
-        @errors.push("The tuple %d had a use_frame_of_source value (%.5f) below 0. The spec mandates use_frame_of_source >= 0." % [line_no, t.value])
+        @errors.push("The line %d had a use_frame_of_source value (%.5f) below 0. The spec mandates use_frame_of_source >= 0." % [line_no, t.value])
       end
     end
   end

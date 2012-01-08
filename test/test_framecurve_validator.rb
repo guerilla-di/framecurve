@@ -81,8 +81,8 @@ class TestFramecurveValidator < Test::Unit::TestCase
     v = Framecurve::Validator.new
     v.validate(c)
     assert v.any_errors?
-    errs = ["The tuple 1 had it's at_frame value (-10) below 1. The spec mandates at_frame >= 1.",
-      "The tuple 2 had a use_frame_of_source value (-345.67000) below 0. The spec mandates use_frame_of_source >= 0."]
+    errs = ["The line 1 had it's at_frame value (-10) below 1. The spec mandates at_frame >= 1.",
+      "The line 2 had a use_frame_of_source value (-345.67000) below 0. The spec mandates use_frame_of_source >= 0."]
     assert_equal errs, v.errors
   end
   
@@ -95,7 +95,7 @@ class TestFramecurveValidator < Test::Unit::TestCase
   def test_parse_from_err_neg_frames
     v = Framecurve::Validator.new
     v.parse_and_validate(File.dirname(__FILE__) + "/fixtures/framecurves/err-neg-frames.framecurve.txt")
-    assert_equal ["The tuple 3 had it's at_frame value (-1) below 1. The spec mandates at_frame >= 1."], v.errors
+    assert_equal ["The line 3 had it's at_frame value (-1) below 1. The spec mandates at_frame >= 1."], v.errors
   end
   
   def test_parse_from_err_no_tuples
