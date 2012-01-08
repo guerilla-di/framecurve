@@ -5,14 +5,14 @@
 
 Gem::Specification.new do |s|
   s.name = "framecurve"
-  s.version = "1.0.2"
+  s.version = "2.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Julik"]
-  s.date = "2011-12-30"
+  s.date = "2012-01-08"
   s.description = " Parser, validation and interpolation"
   s.email = "me@julik.nl"
-  s.executables = ["framecurve_validator"]
+  s.executables = ["framecurve_from_fcp_xml", "framecurve_validator"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.rdoc"
@@ -20,21 +20,31 @@ Gem::Specification.new do |s|
   s.files = [
     ".document",
     "Gemfile",
+    "History.txt",
     "LICENSE.txt",
     "README.rdoc",
     "Rakefile",
+    "bin/framecurve_from_fcp_xml",
     "bin/framecurve_validator",
     "framecurve.gemspec",
     "lib/framecurve.rb",
     "lib/framecurve/comment.rb",
     "lib/framecurve/curve.rb",
+    "lib/framecurve/extractors/fcp_xml.rb",
+    "lib/framecurve/extractors/xml_bridge.rb",
     "lib/framecurve/parser.rb",
     "lib/framecurve/serializer.rb",
     "lib/framecurve/tuple.rb",
     "lib/framecurve/validator.rb",
+    "test/fixtures/fcp_xml/CountDOWN.xml",
+    "test/fixtures/framecurves/err-neg-frames.framecurve.txt",
+    "test/fixtures/framecurves/err-no-tuples.framecurve.txt",
+    "test/fixtures/framecurves/incorrect.extension",
+    "test/fixtures/framecurves/sample_framecurve1.framecurve.txt",
     "test/helper.rb",
     "test/test_framecurve_comment.rb",
     "test/test_framecurve_curve.rb",
+    "test/test_framecurve_from_fcp_xml_binary.rb",
     "test/test_framecurve_parser.rb",
     "test/test_framecurve_serializer.rb",
     "test/test_framecurve_tuple.rb",
