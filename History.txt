@@ -1,0 +1,8 @@
+2.0.0
+
+* Added a FinalCut extractor, plus some bugfixes
+* Improved the commandline validator
+
+1.0.0
+
+* Original release
