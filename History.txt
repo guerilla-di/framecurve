@@ -1,3 +1,7 @@
+2.1.0
+
+* Adds Validator#ok?
+
 2.0.0
 
 * Added a FinalCut extractor, plus some bugfixes

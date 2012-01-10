@@ -7,7 +7,7 @@ class Framecurve::Validator
   attr_reader :warnings, :errors
   
   def initialize
-    @warnings, @errors = [], []
+    @warnings, @errors, @performed = [], [], false
   end
   
   # Tells whether this validator instance has any errors
@@ -35,6 +35,12 @@ class Framecurve::Validator
     methods_matching(/^(verify|recommend)/).each do | method_name |
       method(method_name).call(curve)
     end
+    @performed = true
+  end
+  
+  # Returns true if validation has been performed and there are no warnings and no errors
+  def ok?
+    @performed && !any_errors? && !any_warnings?
   end
   
   private

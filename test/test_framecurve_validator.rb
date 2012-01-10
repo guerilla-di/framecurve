@@ -72,6 +72,7 @@ class TestFramecurveValidator < Test::Unit::TestCase
     c = Framecurve::Curve.new( Framecurve::Tuple.new(10, 123.4), Framecurve::Tuple.new(1, 123.4) )
     v = Framecurve::Validator.new
     v.validate(c)
+    assert !v.ok?
     assert v.any_errors?
     assert_equal ["The frame sequencing is out of order (expected [1, 10] but got [10, 1]). The framecurve spec mandates that frames are recorded sequentially"], v.errors
   end
@@ -83,24 +84,28 @@ class TestFramecurveValidator < Test::Unit::TestCase
     assert v.any_errors?
     errs = ["The line 1 had it's at_frame value (-10) below 1. The spec mandates at_frame >= 1.",
       "The line 2 had a use_frame_of_source value (-345.67000) below 0. The spec mandates use_frame_of_source >= 0."]
+    assert !v.ok?
     assert_equal errs, v.errors
   end
   
   def test_parse_from_err_bad_extension
     v = Framecurve::Validator.new
     v.parse_and_validate(File.dirname(__FILE__) + "/fixtures/framecurves/incorrect.extension")
+    assert !v.ok?
     assert_equal ["The framecurve file has to have the .framecurve.txt double extension, but had \".extension\""], v.errors
   end
   
   def test_parse_from_err_neg_frames
     v = Framecurve::Validator.new
     v.parse_and_validate(File.dirname(__FILE__) + "/fixtures/framecurves/err-neg-frames.framecurve.txt")
+    assert !v.ok?
     assert_equal ["The line 3 had it's at_frame value (-1) below 1. The spec mandates at_frame >= 1."], v.errors
   end
   
   def test_parse_from_err_no_tuples
     v = Framecurve::Validator.new
     v.parse_and_validate(File.dirname(__FILE__) + "/fixtures/framecurves/err-no-tuples.framecurve.txt")
+    assert !v.ok?
     assert_equal ["The framecurve did not contain any frame correlation records"], v.errors
   end
   
@@ -109,6 +114,7 @@ class TestFramecurveValidator < Test::Unit::TestCase
     v = Framecurve::Validator.new
     v.validate(c)
     assert v.any_warnings?
+    assert !v.ok?
     assert_equal "It is recommended that a framecurve starts with a comment with the specification URL", v.warnings[0]
   end
   
@@ -116,8 +122,19 @@ class TestFramecurveValidator < Test::Unit::TestCase
     c = Framecurve::Curve.new( Framecurve::Comment.new("http://framecurve.org/specification-v1"), Framecurve::Tuple.new(10, 123.4))
     v = Framecurve::Validator.new
     v.validate(c)
+    assert !v.ok?
     assert v.any_warnings?
     assert_equal "It is recommended for the second comment to provide a column header", v.warnings[0]
   end
   
+  def test_should_parse_well
+    c = Framecurve::Curve.new( 
+      Framecurve::Comment.new("http://framecurve.org/specification-v1"), 
+      Framecurve::Comment.new("at_frame\tuse_frame_of_source"), 
+      Framecurve::Tuple.new(10, 123.4)
+    )
+    v = Framecurve::Validator.new
+    v.validate(c)
+    assert v.ok?
+  end
 end
