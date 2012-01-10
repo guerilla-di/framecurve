@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "framecurve"
-  s.version = "2.0.0"
+  s.version = "2.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Julik"]
-  s.date = "2012-01-08"
+  s.date = "2012-01-10"
   s.description = " Parser, validation and interpolation"
   s.email = "me@julik.nl"
   s.executables = ["framecurve_from_fcp_xml", "framecurve_validator"]
