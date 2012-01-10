@@ -1,3 +1,5 @@
+require "obuf"
+
 # Represents a curve file with comments and frame correlation records
 class Framecurve::Curve
   include Enumerable
@@ -7,7 +9,10 @@ class Framecurve::Curve
   attr_accessor :filename
   
   def initialize(*elements)
-    @elements = elements.flatten
+    @elements = Obuf.new
+    elements.flatten.each do | e |
+      @elements.push(e)
+    end
   end
   
   # Iterates over all the tuples in the curve
@@ -55,7 +60,7 @@ class Framecurve::Curve
   
   # Returns the number of lines in this curve file
   def length
-    @elements.length
+    @elements.size
   end
   
   # Tells whether the curve contains any elements
@@ -65,7 +70,14 @@ class Framecurve::Curve
   
   # Get a record by offset (line number 0-based)
   def [](at)
-    @elements[at]
+    # The begin..rescue is a workaround for an Obuf bug which is fixed here
+    # https://github.com/julik/obuf/commit/bca083ac610bdd6687f4f9ebbae316bddb8f6f50
+    # however we will stick to the old version for a while, just in case(tm)
+    begin 
+      @elements[at]
+    rescue ArgumentError # marshal data too short, off index
+      nil
+    end
   end
   
   # Tells whether the curve has any tuples at all
