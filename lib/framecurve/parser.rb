@@ -11,10 +11,9 @@ class Framecurve::Parser
     # If the first argument is a path parse from the opened file, 
     # and record the filename in the curve as well
     unless path_or_io.respond_to?(:read)
-      curve = File.open(path_or_io, "r", &method(:parse))
-      curve.filename = File.basename(path_or_io)
-      return curve
+      return File.open(path_or_io, "r", &method(:parse))
     end
+    
     @line_counter = 0 # IO#lineno is not exactly super-reliable
     elements = []
     until path_or_io.eof?
