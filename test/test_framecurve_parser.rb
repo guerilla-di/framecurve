@@ -47,6 +47,15 @@ class TestFramecurveParser < Test::Unit::TestCase
     end
   end
   
+  def test_should_pick_file_path_from_passed_file_object
+    v = Framecurve::Parser.new
+    path = File.dirname(__FILE__) + "/fixtures/framecurves/sample_framecurve1.framecurve.txt"
+    File.open(path) do | f |
+      curve = v.parse(f)
+      assert_equal "sample_framecurve1.framecurve.txt", curve.filename
+    end
+  end
+  
   def test_parser_fails_on_malformed_lines
     data = "Sachlich gesehen\nbambam"
     assert_raise(Framecurve::Malformed) do

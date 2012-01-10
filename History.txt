@@ -1,3 +1,7 @@
+2.2.0
+
+* Let Parser add the filename to the curve when parsing
+
 2.1.0
 
 * Adds Validator#ok?
