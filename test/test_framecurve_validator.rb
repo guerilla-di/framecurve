@@ -77,6 +77,15 @@ class TestFramecurveValidator < Test::Unit::TestCase
     assert_equal ["The frame sequencing is out of order (expected [1, 10] but got [10, 1]). The framecurve spec mandates that frames are recorded sequentially"], v.errors
   end
   
+  def test_should_error_out_with_linebreaks_in_comment
+    c = Framecurve::Curve.new( Framecurve::Comment.new("Foo bar \r\n"), Framecurve::Tuple.new(10, 123.4))
+    v = Framecurve::Validator.new
+    v.validate(c)
+    assert !v.ok?
+    assert v.any_errors?
+    assert_equal ["The comment at line 1 contains a line break"], v.errors
+  end
+  
   def test_should_error_out_with_neg_source_and_dest_values
     c = Framecurve::Curve.new( Framecurve::Tuple.new(-10, 123.4), Framecurve::Tuple.new(1, -345.67) )
     v = Framecurve::Validator.new

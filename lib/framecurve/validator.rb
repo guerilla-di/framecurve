@@ -70,6 +70,14 @@ class Framecurve::Validator
     end
   end
   
+  def verify_no_linebreaks_in_comments(curve)
+    curve.each_with_index do | r, i |
+      if r.comment? && (r.text.include?("\r") || r.text.include?("\n"))
+         @errors.push("The comment at line %d contains a line break" % (i + 1))
+      end
+    end
+  end
+  
   def verify_non_negative_source_and_destination_frames(curve)
     curve.each_with_index do | t, i |
       next unless t.tuple?
