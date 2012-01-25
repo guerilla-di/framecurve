@@ -1,6 +1,5 @@
 source "http://rubygems.org"
 
-gem "term-ansicolor"
 gem "obuf"
 
 group :development do

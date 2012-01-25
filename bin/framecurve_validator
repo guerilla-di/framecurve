@@ -1,9 +1,10 @@
 #!/usr/bin/env ruby
 require File.dirname(__FILE__) + "/../lib/framecurve"
-require 'term/ansicolor'
 
 class Color
-  extend Term::ANSIColor
+  def self.method_missing(*a)
+    yield
+  end
 end
 
 raise "Pass at least one path to a framecurve file as a argument" if ARGV.empty?
