@@ -49,6 +49,15 @@ class Framecurve::XMLBridge
     return ancestor
   end
   
+  def parent_by_name(of_node, parent_name)
+    ancestor = of_node
+    until ancestor == ancestor.parent
+      return ancestor if ancestor.node_name == parent_name
+      ancestor == ancestor.parent
+    end
+    nil
+  end
+  
   def element_text(elem)
     elem.text.to_s
   end

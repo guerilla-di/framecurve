@@ -28,6 +28,7 @@ class TestFramecurveFromFCPXML < Test::Unit::TestCase
     assert_equal 11, curve.length
     assert_match /From FCP XML/, curve[2].text
     assert_equal "Information from /xmeml/project/children/sequence/media/video/track/clipitem[1]", curve[3].text
+    
     assert_equal Framecurve::Tuple.new(1, 13.0), curve[4]
     assert_equal Framecurve::Tuple.new(51, 63.0), curve[-1]
     

@@ -67,7 +67,7 @@ class FCP_XML
     
     c.comment!("From FCP XML %s" % source_filename)
     c.comment!("Information from %s" % clipitem.xpath)
-    
+  #  c.comment!("Sequence start TC is %s", timecode_from(param))
     clip_item_name = @xml.xpath_first_text(clipitem, "name")
     
     # The clip in point in the edit timeline, also first frame of the TW
@@ -82,6 +82,11 @@ class FCP_XML
     end
     $stderr.puts("Generated a curve of #{c.length} keys")
     c
+  end
+  
+  def timecode_from(param)
+    sequence = @xml.parent_by_name(param, "sequence")
+    tc = @xml.xpath_first_text(sequence, "timecode/string")
   end
   
   def write_keyframe(c, kf, in_point, out_point)
