@@ -30,6 +30,10 @@ class TestFramecurveValidatorBinary < Test::Unit::TestCase
   
   def test_cli_with_valid_file
     s, o, e = cli(File.expand_path(GOOD_FC_PATH))
+    puts s.inspect
+    puts o.inspect
+    puts e.inspect
+    
     assert_equal 0, s
     assert o.include?("OK!")
     assert_equal '', e

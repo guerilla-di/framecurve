@@ -9,8 +9,8 @@ class TestFramecurveTuple < Test::Unit::TestCase
   end
   
   def test_not_comment
-    assert !Framecurve::Tuple.new.comment?
-    assert Framecurve::Tuple.new.tuple?
+    assert !Framecurve::Tuple.new(0,0).comment?
+    assert Framecurve::Tuple.new(0,0).tuple?
   end
   
   def test_vlidates_equality_to_5_decimal_places

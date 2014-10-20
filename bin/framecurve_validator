@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require File.dirname(__FILE__) + "/../lib/framecurve"
+require File.dirname(__FILE__) + "/../lib/framecurve" unless defined?(Framecurve)
 
 class Color
   def self.method_missing(*a)
@@ -35,3 +35,5 @@ ARGV.each do | arg |
     exit 10
   end 
 end
+
+exit 0

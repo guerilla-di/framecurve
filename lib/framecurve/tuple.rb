@@ -1,7 +1,12 @@
 # Represents one Framecurve frame correlation record
-class Framecurve::Tuple < Struct.new(:at, :value)
+class Framecurve::Tuple
   include Comparable
+  attr_reader :at, :value
   
+  def initialize(at, value)
+    @at, @value = at, value
+  end
+
   def tuple?
     true
   end

@@ -1,3 +1,5 @@
+puts "Testing on #{RUBY_VERSION}-#{RUBY_PLATFORM}"
+
 require 'test/unit'
 require 'stringio'
 
