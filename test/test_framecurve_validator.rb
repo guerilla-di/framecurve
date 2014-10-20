@@ -124,7 +124,7 @@ class TestFramecurveValidator < Test::Unit::TestCase
     v.validate(c)
     assert v.any_warnings?
     assert !v.ok?
-    assert_equal "It is recommended that a framecurve starts with a comment with the specification URL", v.warnings[0]
+    assert v.warnings.include?("It is recommended that a framecurve starts with a comment with the specification URL")
   end
   
   def test_should_warn_without_preamble_headers
