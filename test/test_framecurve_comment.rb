@@ -2,8 +2,8 @@ require File.dirname(__FILE__) + '/helper'
 
 class TestFramecurveComment < Test::Unit::TestCase
   def test_not_tuple
-    assert Framecurve::Comment.new.comment?
-    assert !Framecurve::Comment.new.tuple?
+    assert Framecurve::Comment.new('').comment?
+    assert !Framecurve::Comment.new('').tuple?
   end
   
   def test_initialization

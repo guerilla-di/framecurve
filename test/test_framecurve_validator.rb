@@ -48,8 +48,9 @@ class TestFramecurveValidator < Test::Unit::TestCase
     v = Framecurve::Validator.new
     v.validate([])
     assert v.any_errors?
-    assert_equal ["The framecurve did not contain any lines at all",
-     "The framecurve did not contain any frame correlation records"], v.errors
+    messages = ["The framecurve did not contain any frame correlation records",
+        "The framecurve did not contain any lines at all"]
+    assert_equal Set.new(messages), Set.new(v.errors)
   end
   
   def test_should_error_out_without_actual_tuples

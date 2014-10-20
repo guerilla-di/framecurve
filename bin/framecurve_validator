@@ -35,5 +35,4 @@ ARGV.each do | arg |
     exit 10
   end 
 end
-
 exit 0
