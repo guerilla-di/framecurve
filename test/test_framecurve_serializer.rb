@@ -1,4 +1,4 @@
-require 'helper'
+require File.dirname(__FILE__) + '/helper'
 
 class TestFramecurveSerializer < Test::Unit::TestCase
   def test_writes_preamble_if_needed

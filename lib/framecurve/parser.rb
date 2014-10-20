@@ -33,7 +33,9 @@ class Framecurve::Parser
     curve = Framecurve::Curve.new(elements) 
     
     # Pick the actual filename if it's available
-    curve.filename = File.basename(path_or_io.path) if path_or_io.respond_to?(:path)
+    if path_or_io.respond_to?(:path) && path_or_io.path
+      curve.filename = File.basename(path_or_io.path)
+    end
     
     return curve
   end

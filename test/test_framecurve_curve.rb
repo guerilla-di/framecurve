@@ -1,4 +1,4 @@
-require 'helper'
+require File.dirname(__FILE__) + '/helper'
 
 class TestFramecurveCurve < Test::Unit::TestCase
   def test_init_with_empty_array
