@@ -49,3 +49,5 @@ pkg
 
 # No lock
 Gemfile.lock
+
+.ruby-version
