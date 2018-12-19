@@ -37,14 +37,14 @@ class TestFramecurveValidatorBinary < Test::Unit::TestCase
   
   def test_cli_with_bad_file
     s, o, e = cli(File.expand_path(BAD_FC_PATH))
-    assert_equal 10, s, "The exit status on fail should not be 0"
+    refute_equal 0, s, "The exit status on fail should not be 0"
     assert e.include?("ERRORS")
   end
   
   def test_cli_with_bad_filename_extension
     FileUtils.cp(GOOD_FC_PATH, GOOD_FC_PATH + ".tmp")
     s, o, e = cli(File.expand_path(GOOD_FC_PATH + ".tmp"))
-    assert_equal 10, s, "The exit status on fail should not be 0"
+    refute_equal 0, s, "The exit status on fail should not be 0"
     assert e.include?("but had \".tmp\"")
   end
   

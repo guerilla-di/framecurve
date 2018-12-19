@@ -1,27 +1,20 @@
-# encoding: utf-8
-
-require 'jeweler'
-require './lib/framecurve'
-
-Jeweler::Tasks.new do |gem|
-  # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.version = Framecurve::VERSION
-  gem.name = "framecurve"
-  gem.homepage = "http://github.com/guerilla-di/framecurve"
-  gem.license = "MIT"
-  gem.summary = %Q{ Handles Framecurve files }
-  gem.description = %Q{ Parser, validation and interpolation}
-  gem.email = "me@julik.nl"
-  gem.authors = ["Julik"]
-  # dependencies defined in Gemfile
-end
-Jeweler::RubygemsDotOrgTasks.new
-
+require "bundler/gem_tasks"
 require 'rake/testtask'
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
+
+desc "Run all tests"
+Rake::TestTask.new("test") do |t|
+  t.libs << "test"
+  t.pattern = 'test/**/test_*.rb'
+  t.verbose = true
 end
 
-task :default => :test
+task :update_license_date do
+  license_path = File.dirname(__FILE__) + "/LICENSE.txt"
+  license_text = File.read(license_path)
+  license_text.gsub!(/2009\-(\d+)/, "2009-#{Time.now.year + 1}")
+  File.open(license_path, "w"){|f| f << license_text }
+end
+
+# Automatically update the LICENSE
+Rake::Task[:test].enhance [:update_license_date]
+task :default => [ :test ]
