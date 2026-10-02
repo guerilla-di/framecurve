@@ -25,7 +25,8 @@ Gem::Specification.new do |s|
 
   s.specification_version = 4
 
-  s.add_development_dependency('rake', '~> 10')
+  s.add_runtime_dependency('rexml')
+  s.add_development_dependency('rake')
   s.add_development_dependency('cli_test')
   s.add_development_dependency('test-unit')
 end

@@ -30,8 +30,8 @@ class Framecurve::XMLBridge
   end
   
   # Yields each XPath-satisfying element to the passed block
-  def xpath_each(from_root_node, path)
-    REXML::XPath.each(from_root_node, path, &Proc.new)
+  def xpath_each(from_root_node, path, &blk)
+    REXML::XPath.each(from_root_node, path, &blk)
   end
   
   # Returns the xpath to that specific node in the document

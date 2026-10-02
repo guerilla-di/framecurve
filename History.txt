@@ -1,3 +1,8 @@
+2.2.4
+
+* Fix `Curve#each` and the XML bridge on Ruby 3+ (`Proc.new` without a block)
+* Declare the dependency on `rexml`, which is no longer a default gem
+
 2.2.2
 
 * Fix tests on 1.8, re-roll a release

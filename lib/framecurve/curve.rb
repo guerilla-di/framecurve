@@ -26,8 +26,8 @@ class Framecurve::Curve
   end
   
   # Iterates over all the elements in the curve
-  def each
-    @elements.each(&Proc.new)
+  def each(&blk)
+    @elements.each(&blk)
   end
   
   # Iterates over all the comments in the curve
