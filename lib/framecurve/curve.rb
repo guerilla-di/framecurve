@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Represents a curve file with comments and frame correlation records
 class Framecurve::Curve
   include Enumerable

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Represents one Framecurve frame correlation record
 class Framecurve::Tuple
   include Comparable

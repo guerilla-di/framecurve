@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Represents a framecurve comment
 class Framecurve::Comment
   include Comparable

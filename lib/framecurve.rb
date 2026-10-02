@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Framecurve
   # Is raised when a malformed framecurve bit has occurred in the system
   class Malformed < RuntimeError

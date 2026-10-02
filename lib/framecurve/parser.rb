@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Parses the data in the passed file/IO into a Curve object.
 #   curve = Framecurve::Parser.new.parse("/tmp/curve.framecurve.txt")
 class Framecurve::Parser

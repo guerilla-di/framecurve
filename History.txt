@@ -1,3 +1,7 @@
+2.2.5
+
+* Add frozen_string_literal magic comments to all library files
+
 2.2.4
 
 * Fix `Curve#each` and the XML bridge on Ruby 3+ (`Proc.new` without a block)

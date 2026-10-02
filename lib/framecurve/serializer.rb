@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Writes out a Curve object to the passed IO
 class Framecurve::Serializer
   

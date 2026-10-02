@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Validates a Curve object for well-formedness and completeness.
 #   v = Validator.new
 #   v.parse(io_handle)
